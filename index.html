@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Name — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f7f4;
+      --surface: #ffffff;
+      --text: #1a1a18;
+      --muted: #8a8780;
+      --accent: #2d5a3d;
+      --accent-light: #e8f0eb;
+      --border: #e8e6e1;
+      --serif: 'Lora', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(249,247,244,0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* LAYOUT */
+    main { padding-top: 56px; }
+
+    section {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 96px 2rem;
+    }
+
+    section + section {
+      border-top: 1px solid var(--border);
+    }
+
+    /* HERO */
+    #home {
+      padding-top: 120px;
+      padding-bottom: 80px;
+    }
+
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 5vw, 3.4rem);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.4rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 2.4rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--text);
+      color: var(--bg);
+      padding: 0.7rem 1.4rem;
+      border-radius: 2rem;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 400;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .hero-cta:hover { background: var(--accent); transform: translateY(-1px); }
+
+    /* SECTION HEADINGS */
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ABOUT */
+    .about-text p {
+      font-size: 1.02rem;
+      color: #3a3a38;
+      margin-bottom: 1rem;
+    }
+
+    .about-text p:last-child { margin-bottom: 0; }
+
+    /* SKILLS */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .skill-tag {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.35rem 0.9rem;
+      border-radius: 2rem;
+      font-size: 0.84rem;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .skill-tag:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* PROJECTS */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.6rem;
+      transition: box-shadow 0.2s, transform 0.15s;
+      cursor: default;
+    }
+
+    .project-card:hover {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+    }
+
+    .project-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+    }
+
+    .project-title {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .project-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.65rem;
+      border-radius: 2rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .project-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    .project-desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .project-tag {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 2rem;
+    }
+
+    /* WRITING */
+    .writing-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .writing-item {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      transition: color 0.15s;
+      gap: 1rem;
+    }
+
+    .writing-item:hover .writing-title { color: var(--accent); }
+
+    .writing-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 400;
+      transition: color 0.15s;
+    }
+
+    .writing-date {
+      font-size: 0.78rem;
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* CONTACT */
+    .contact-intro {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.95rem;
+      transition: color 0.15s;
+    }
+
+    .contact-link:hover { color: var(--accent); }
+
+    .contact-link span:last-child {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* FOOTER */
+    footer {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* FADE IN */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { gap: 1.2rem; }
+      section { padding: 72px 1.4rem; }
+      #home { padding-top: 96px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#home" class="nav-logo">Your Name</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#writing">Writing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="home">
+      <p class="eyebrow fade-in">Available for work</p>
+      <h1 class="fade-in">Building things<br>with <em>care</em> &amp; curiosity.</h1>
+      <p class="hero-sub fade-in">I'm a developer who enjoys turning ideas into clean, thoughtful software. Currently learning in public.</p>
+      <a href="#contact" class="hero-cta fade-in">Say hello →</a>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <p class="section-label">About</p>
+      <div class="about-text fade-in">
+        <p>Hi! I'm a developer who loves building things on the web. I enjoy writing clean code, learning new tools, and sharing what I pick up along the way.</p>
+        <p>When I'm not coding, I'm probably reading, taking long walks, or writing notes about something I just figured out.</p>
+        <p>I believe in learning slowly and understanding deeply.</p>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <p class="section-label">Skills</p>
+      <div class="skills-grid fade-in">
+        <span class="skill-tag">HTML &amp; CSS</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">React</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">Figma</span>
+        <span class="skill-tag">Linux</span>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <p class="section-label">Projects</p>
+      <div class="projects-list">
+
+        <div class="project-card fade-in">
+          <div class="project-top">
+            <span class="project-title">Project One</span>
+            <a href="#" class="project-link">View →</a>
+          </div>
+          <p class="project-desc">A short description of what this project does and why you built it. Keep it simple and honest.</p>
+          <div class="project-tags">
+            <span class="project-tag">React</span>
+            <span class="project-tag">Node.js</span>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-top">
+            <span class="project-title">Project Two</span>
+            <a href="#" class="project-link">View →</a>
+          </div>
+          <p class="project-desc">Another project you're proud of. What problem did it solve? What did you learn building it?</p>
+          <div class="project-tags">
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">CSS</span>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-top">
+            <span class="project-title">Project Three</span>
+            <a href="#" class="project-link">View →</a>
+          </div>
+          <p class="project-desc">Maybe something small but clever. Side projects say a lot about how you think.</p>
+          <div class="project-tags">
+            <span class="project-tag">TypeScript</span>
+            <span class="project-tag">API</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WRITING -->
+    <section id="writing">
+      <p class="section-label">Sometimes I write</p>
+      <div class="writing-list fade-in">
+        <a href="#" class="writing-item">
+          <span class="writing-title">What I learned building my first API</span>
+          <span class="writing-date">Mar 2025</span>
+        </a>
+        <a href="#" class="writing-item">
+          <span class="writing-title">Understanding closures, finally</span>
+          <span class="writing-date">Jan 2025</span>
+        </a>
+        <a href="#" class="writing-item">
+          <span class="writing-title">Why I started learning in public</span>
+          <span class="writing-date">Dec 2024</span>
+        </a>
+        <a href="#" class="writing-item">
+          <span class="writing-title">A beginner's notes on TypeScript</span>
+          <span class="writing-date">Nov 2024</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <p class="section-label">Contact</p>
+      <p class="contact-intro fade-in">I'm always happy to chat — about projects, ideas, or just to say hello.</p>
+      <div class="contact-links fade-in">
+        <a href="mailto:you@example.com" class="contact-link">
+          <span>Email</span>
+          <span>you@example.com →</span>
+        </a>
+        <a href="https://github.com" target="_blank" class="contact-link">
+          <span>GitHub</span>
+          <span>github.com/yourname →</span>
+        </a>
+        <a href="https://twitter.com" target="_blank" class="contact-link">
+          <span>Twitter / X</span>
+          <span>@yourhandle →</span>
+        </a>
+        <a href="https://linkedin.com" target="_blank" class="contact-link">
+          <span>LinkedIn</span>
+          <span>linkedin.com/in/yourname →</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>Your Name</span>
+    <span>Built with plain HTML &amp; CSS</span>
+  </footer>
+
+  <script>
+    // Fade in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
