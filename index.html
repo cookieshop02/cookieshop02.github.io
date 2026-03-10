@@ -88,6 +88,31 @@
       padding-bottom: 80px;
     }
 
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2.5rem;
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-photo {
+      flex-shrink: 0;
+    }
+
+    .hero-photo img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      display: block;
+    }
+
     .eyebrow {
       font-size: 0.78rem;
       letter-spacing: 0.12em;
@@ -347,6 +372,15 @@
       .nav-links { gap: 1.2rem; }
       section { padding: 72px 1.4rem; }
       #home { padding-top: 96px; }
+
+      .hero-inner {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+      }
+      .hero-photo img {
+        width: 110px;
+        height: 110px;
+      }
     }
   </style>
 </head>
@@ -366,10 +400,18 @@
 
     <!-- HERO -->
     <section id="home">
-      <p class="eyebrow fade-in">Available for work</p>
-      <h1 class="fade-in">Building things<br>with <em>care</em> &amp; curiosity.</h1>
-      <p class="hero-sub fade-in">I'm a developer who enjoys turning ideas into clean, thoughtful software. Currently learning in public.</p>
-      <a href="#contact" class="hero-cta fade-in">Say hello →</a>
+      <div class="hero-inner">
+        <div class="hero-text">
+          <p class="eyebrow fade-in">Available for work</p>
+          <h1 class="fade-in">Building things<br>with <em>care</em> &amp; curiosity.</h1>
+          <p class="hero-sub fade-in">I'm a developer who enjoys turning ideas into clean, thoughtful software. Currently learning in public.</p>
+          <a href="#contact" class="hero-cta fade-in">Say hello →</a>
+        </div>
+        <div class="hero-photo fade-in">
+          <!-- Replace YOUR_PHOTO.jpg with your actual image path or URL -->
+          <img src="YOUR_PHOTO.jpg" alt="Shivanshi Rai" />
+        </div>
+      </div>
     </section>
 
     <!-- ABOUT -->
@@ -407,7 +449,6 @@
           <div class="project-top">
             <span class="project-title">Agent-Debugging-Replay-Tool</span>
             <a href="https://github.com/cookieshop02/Agent-Debugging-Replay-Tool" class="project-link">View →</a>
-            
           </div>
           <p class="project-desc">🔍 Record, replay, and debug AI agent runs — visualize every LLM call, tool call, and error with cost analysis. Built with FastAPI + Streamlit.</p>
           <div class="project-tags">
@@ -451,15 +492,11 @@
     <section id="writing">
       <p class="section-label">Sometimes I write(My Blogs)</p>
       <div class="writing-list fade-in">
-     
         <a href="https://medium.com/p/f8045a07b12d" class="writing-item">
           <span class="writing-title">Neural Networks and PyTorch</span>
-          
         </a>
-        
         <a href="https://medium.com/p/185b0803e47f" class="writing-item">
           <span class="writing-title">Fundamentals of FastAPI</span>
-          
         </a>
       </div>
     </section>
@@ -492,7 +529,6 @@
   </footer>
 
   <script>
-    // Fade in on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
