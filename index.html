@@ -23,11 +23,16 @@
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      font-weight: 300;
-      line-height: 1.7;
+       color: var(--text);
+       font-family: var(--sans);
+       font-weight: 300;
+       line-height: 1.7;
+
+       background-color: var(--bg);
+
+      /* dotted texture */
+       background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0);
+       background-size: 14px 14px;
     }
 
     /* NAV */
