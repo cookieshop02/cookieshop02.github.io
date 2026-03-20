@@ -579,15 +579,15 @@
           <div class="project-body">
             <div class="project-inner">
               <ul class="feature-list">
-                <li>Production API Architecture
+                <li>Production API Architecture -
 Built a REST API layer using FastAPI that completely separates frontend and backend — Streamlit communicates via HTTP requests instead of direct imports, making the backend reusable by any client (mobile, web, other services).</li>
-                <li>JWT Authentication System
+                <li>JWT Authentication System -
 Implemented secure user authentication from scratch — bcrypt password hashing, JWT token generation, protected routes using FastAPI's dependency injection. Users can register, login, and their data is completely isolated from other users.</li>
-                <li>Persistent AI Memory with PostgreSQL
+                <li>Persistent AI Memory with PostgreSQL -
 Used LangGraph's checkpointer with PostgreSQL to persist full conversation history per user — chat survives page refresh, logout, and device changes. Not just in-memory storage but real production-grade persistence.</li>
-                <li>LangGraph Orchestration
+                <li>LangGraph Orchestration -
 Built the AI pipeline using LangGraph's stateful graph architecture with token trimming to prevent context blowup — the same pattern used by production AI systems like Perplexity and ChatGPT.</li>
-                <li>Fully Containerized & Deployed
+                <li>Fully Containerized & Deployed -
 Entire stack (FastAPI + Streamlit + PostgreSQL) containerized with Docker and docker-compose — runs with one command on any machine. Live deployment on Render with separate backend and frontend services.</li>
               </ul>
             </div>
