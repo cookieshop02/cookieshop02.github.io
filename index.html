@@ -547,10 +547,11 @@
           <div class="project-body">
             <div class="project-inner">
               <ul class="feature-list">
-                <li>Step-by-step replay of agent runs with full LLM call and tool call history</li>
-                <li>Per-call cost estimation and token usage breakdown across an entire run</li>
-                <li>Error pinpointing — highlights exactly which step failed and why</li>
-                <li>FastAPI backend with Streamlit visualization dashboard</li>
+                <li>Step-by-step replay — captures every LLM call, tool call, and error with full input/output, so you can inspect exactly what your agent did at each point.</li>
+                <li>Visual flow graph — renders your agent's execution path as a diagram using Graphviz, not just raw logs.</li>
+                <li>Per-step cost analysis — tracks token usage per call with an efficiency breakdown across the entire run.</li>
+                <li>Auth + multi-user isolation — signup/login with bcrypt, unique API key per user, every user sees only their own runs.</li>
+                <li>Fully deployed & pluggable — FastAPI server on Railway, dashboard on Streamlit Cloud, drop-in AgentTracer class integrates with any existing agent in ~5 lines.</li>
               </ul>
             </div>
           </div>
