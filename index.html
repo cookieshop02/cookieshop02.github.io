@@ -27,14 +27,10 @@
        font-family: var(--sans);
        font-weight: 300;
        line-height: 1.7;
-
        background-color: var(--bg);
-
-      /* halftone texture */
        background-image:
          radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
          radial-gradient(rgba(0,0,0,0.04) 1px, transparent 1px);
-
        background-size: 16px 16px, 8px 8px;
        background-position: 0 0, 4px 4px;
     }
@@ -104,13 +100,9 @@
       gap: 2.5rem;
     }
 
-    .hero-text {
-      flex: 1;
-    }
+    .hero-text { flex: 1; }
 
-    .hero-photo {
-      flex-shrink: 0;
-    }
+    .hero-photo { flex-shrink: 0; }
 
     .hero-photo img {
       width: 180px;
@@ -223,21 +215,24 @@
     .projects-list {
       display: flex;
       flex-direction: column;
-      gap: 1.6rem;
+      gap: 1rem;
     }
 
     .project-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 1.6rem;
+      overflow: hidden;
       transition: box-shadow 0.2s, transform 0.15s;
-      cursor: default;
     }
 
     .project-card:hover {
       box-shadow: 0 4px 24px rgba(0,0,0,0.07);
       transform: translateY(-2px);
+    }
+
+    .project-header {
+      padding: 1.4rem 1.6rem 0;
     }
 
     .project-top {
@@ -260,6 +255,7 @@
       border: 1px solid var(--border);
       padding: 0.2rem 0.65rem;
       border-radius: 2rem;
+      flex-shrink: 0;
       transition: color 0.2s, border-color 0.2s;
     }
 
@@ -268,7 +264,7 @@
     .project-desc {
       color: var(--muted);
       font-size: 0.92rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
     }
 
     .project-tags {
@@ -283,6 +279,80 @@
       font-size: 0.75rem;
       padding: 0.2rem 0.65rem;
       border-radius: 2rem;
+    }
+
+    /* EXPAND BUTTON */
+    .expand-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 7px 0 9px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      margin-top: 1rem;
+      transition: color 0.15s;
+    }
+
+    .expand-btn:hover { color: var(--accent); }
+
+    .chevron {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+
+    .project-card.open .chevron { transform: rotate(180deg); }
+
+    /* ACCORDION BODY */
+    .project-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.32s ease;
+    }
+
+    .project-card.open .project-body { max-height: 400px; }
+
+    .project-inner {
+      border-top: 1px solid var(--border);
+      padding: 1rem 1.6rem 1.3rem;
+      background: #fafaf8;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .feature-list li {
+      font-size: 0.88rem;
+      color: var(--muted);
+      display: flex;
+      gap: 9px;
+      line-height: 1.55;
+    }
+
+    .feature-list li::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 7px;
     }
 
     /* WRITING */
@@ -421,7 +491,6 @@
           <a href="#contact" class="hero-cta fade-in">Say hello →</a>
         </div>
         <div class="hero-photo fade-in">
-          <!-- Replace YOUR_PHOTO.jpg with your actual image path or URL -->
           <img src="port.jpg" alt="Shivanshi Rai" />
         </div>
       </div>
@@ -459,46 +528,101 @@
       <div class="projects-list">
 
         <div class="project-card fade-in">
-          <div class="project-top">
-            <span class="project-title">Agent-Debugging-Replay-Tool</span>
-            <a href="https://github.com/cookieshop02/Agent-Debugging-Replay-Tool" class="project-link">View →</a>
+          <div class="project-header">
+            <div class="project-top">
+              <span class="project-title">Agent-Debugging-Replay-Tool</span>
+              <a href="https://github.com/cookieshop02/Agent-Debugging-Replay-Tool" class="project-link">View →</a>
+            </div>
+            <p class="project-desc">🔍 Record, replay, and debug AI agent runs — visualize every LLM call, tool call, and error with cost analysis. Built with FastAPI + Streamlit.</p>
+            <div class="project-tags">
+              <span class="project-tag">Streamlit</span>
+              <span class="project-tag">FastAPI</span>
+              <span class="project-tag">Groq</span>
+            </div>
+            <button class="expand-btn" onclick="toggleProject(this)">
+              Expand to know more
+              <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke-width="1.8"><polyline points="4,6 8,10 12,6"/></svg>
+            </button>
           </div>
-          <p class="project-desc">🔍 Record, replay, and debug AI agent runs — visualize every LLM call, tool call, and error with cost analysis. Built with FastAPI + Streamlit.</p>
-          <div class="project-tags">
-            <span class="project-tag">Streamlit</span>
-            <span class="project-tag">FastAPI</span>
-            <span class="project-tag">Groq</span>
+          <div class="project-body">
+            <div class="project-inner">
+              <ul class="feature-list">
+                <li>Step-by-step replay of agent runs with full LLM call and tool call history</li>
+                <li>Per-call cost estimation and token usage breakdown across an entire run</li>
+                <li>Error pinpointing — highlights exactly which step failed and why</li>
+                <li>FastAPI backend with Streamlit visualization dashboard</li>
+              </ul>
+            </div>
           </div>
         </div>
 
         <div class="project-card fade-in">
-          <div class="project-top">
-            <span class="project-title">Webot</span>
-            <a href="https://github.com/cookieshop02/Webot" class="project-link">View →</a>
+          <div class="project-header">
+            <div class="project-top">
+              <span class="project-title">Webot</span>
+              <a href="https://github.com/cookieshop02/Webot" class="project-link">View →</a>
+            </div>
+            <p class="project-desc">A modular AI chatbot platform powered by LangGraph state machines, Groq LLM, FastAPI APIs, and Streamlit UI, featuring multi-thread chat memory, PostgreSQL persistence, JWT authentication, real-time streaming, and Docker deployment.</p>
+            <div class="project-tags">
+              <span class="project-tag">Groq</span>
+              <span class="project-tag">LangGraph</span>
+              <span class="project-tag">Streamlit</span>
+              <span class="project-tag">PostgreSQL</span>
+              <span class="project-tag">Docker</span>
+            </div>
+            <button class="expand-btn" onclick="toggleProject(this)">
+              Expand to know more
+              <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke-width="1.8"><polyline points="4,6 8,10 12,6"/></svg>
+            </button>
           </div>
-          <p class="project-desc">A modular AI chatbot platform powered by LangGraph state machines, Groq LLM, FastAPI APIs, and Streamlit UI, featuring multi-thread chat memory, PostgreSQL persistence, JWT authentication, real-time streaming, and Docker deployment.</p>
-          <div class="project-tags">
-            <span class="project-tag">Groq</span>
-            <span class="project-tag">LangGraph</span>
-            <span class="project-tag">Streamlit</span>
-            <span class="project-tag">PostgreSQL</span>
-            <span class="project-tag">Docker</span>
+          <div class="project-body">
+            <div class="project-inner">
+              <ul class="feature-list">
+                <li>Production API Architecture
+Built a REST API layer using FastAPI that completely separates frontend and backend — Streamlit communicates via HTTP requests instead of direct imports, making the backend reusable by any client (mobile, web, other services).</li>
+                <li>JWT Authentication System
+Implemented secure user authentication from scratch — bcrypt password hashing, JWT token generation, protected routes using FastAPI's dependency injection. Users can register, login, and their data is completely isolated from other users.</li>
+                <li>Persistent AI Memory with PostgreSQL
+Used LangGraph's checkpointer with PostgreSQL to persist full conversation history per user — chat survives page refresh, logout, and device changes. Not just in-memory storage but real production-grade persistence.</li>
+                <li>LangGraph Orchestration
+Built the AI pipeline using LangGraph's stateful graph architecture with token trimming to prevent context blowup — the same pattern used by production AI systems like Perplexity and ChatGPT.</li>
+                <li>Fully Containerized & Deployed
+Entire stack (FastAPI + Streamlit + PostgreSQL) containerized with Docker and docker-compose — runs with one command on any machine. Live deployment on Render with separate backend and frontend services.</li>
+              </ul>
+            </div>
           </div>
         </div>
 
         <div class="project-card fade-in">
-          <div class="project-top">
-            <span class="project-title">PaperLens</span>
-            <a href="https://github.com/cookieshop02/PaperLens" class="project-link">View →</a>
+          <div class="project-header">
+            <div class="project-top">
+              <span class="project-title">PaperLens</span>
+              <a href="https://github.com/cookieshop02/PaperLens" class="project-link">View →</a>
+            </div>
+            <p class="project-desc">A full-stack AI chatbot built with LangGraph and Groq, featuring JWT authentication, PostgreSQL persistence, and REST API architecture.</p>
+            <div class="project-tags">
+              <span class="project-tag">Qdrant</span>
+              <span class="project-tag">Groq</span>
+              <span class="project-tag">FastAPI</span>
+              <span class="project-tag">Streamlit</span>
+              <span class="project-tag">PostgreSQL</span>
+              <span class="project-tag">Docker</span>
+            </div>
+            <button class="expand-btn" onclick="toggleProject(this)">
+              Expand to know more
+              <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke-width="1.8"><polyline points="4,6 8,10 12,6"/></svg>
+            </button>
           </div>
-          <p class="project-desc">A full-stack AI chatbot built with LangGraph and Groq, featuring JWT authentication, PostgreSQL persistence, and REST API architecture.</p>
-          <div class="project-tags">
-            <span class="project-tag">Qdrant</span>
-            <span class="project-tag">Groq</span>
-            <span class="project-tag">FastAPI</span>
-            <span class="project-tag">Streamlit</span>
-            <span class="project-tag">PostgreSQL</span>
-            <span class="project-tag">Docker</span>
+          <div class="project-body">
+            <div class="project-inner">
+              <ul class="feature-list">
+                <li>Built a multi-document RAG pipeline that semantically searches across up to 4 research papers simultaneously using Sentence Transformers (all-MiniLM-L6-v2) and Qdrant vector database with cosine similarity scoring.</li>
+                <li>Designed a semantic transparency layer that surfaces per-document relevance scores, global top-3 chunks, and per-paper chunk breakdowns — giving users full visibility into how every answer was generated.</li>
+                <li>Engineered a multi-layer anti-hallucination system using confidence score thresholds (0.45/0.55), strict LLM system prompting, and source citation enforcement to ensure answers are strictly grounded in uploaded documents.</li>
+                <li>Built a production-ready backend with FastAPI featuring multi-turn conversational memory (last 5 messages), persistent PostgreSQL session storage, and a RESTful API with upload, chat, and history endpoints.</li>
+                <li>Deployed a full-stack AI application with a FastAPI backend and Streamlit frontend on HuggingFace Spaces, using Qdrant Cloud for vector storage and Neon for serverless PostgreSQL — fully cloud-hosted with zero local dependencies.</li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -559,6 +683,12 @@
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    function toggleProject(btn) {
+      const card = btn.closest('.project-card');
+      card.classList.toggle('open');
+      btn.childNodes[0].textContent = card.classList.contains('open') ? 'less details ' : 'more details ';
+    }
   </script>
 
 </body>
