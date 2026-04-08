@@ -101,7 +101,6 @@
     }
 
     .hero-text { flex: 1; }
-
     .hero-photo { flex-shrink: 0; }
 
     .hero-photo img {
@@ -390,13 +389,25 @@
       flex-shrink: 0;
     }
 
-    /* CONTACT */
+    /* ── CONTACT — two-column layout ── */
+    #contact {
+      max-width: 900px; /* wider to hold two columns */
+    }
+
     .contact-intro {
       font-size: 1rem;
       color: var(--muted);
       margin-bottom: 2rem;
     }
 
+    .contact-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    /* LEFT — links */
     .contact-links {
       display: flex;
       flex-direction: column;
@@ -422,6 +433,103 @@
       color: var(--muted);
     }
 
+    /* RIGHT — message form */
+    .contact-form-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.6rem;
+    }
+
+    .contact-form-wrap h3 {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+
+    .contact-form-wrap p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .form-field label {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .form-field input,
+    .form-field textarea {
+      width: 100%;
+      padding: 0.6rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--bg);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s;
+      resize: none;
+    }
+
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(45,90,61,0.1);
+    }
+
+    .form-field textarea { height: 110px; }
+
+    .send-btn {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      border: none;
+      border-radius: 7px;
+      background: var(--text);
+      color: var(--bg);
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      font-weight: 400;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 0.3rem;
+    }
+
+    .send-btn:hover { background: var(--accent); transform: translateY(-1px); }
+    .send-btn:active { transform: translateY(0); }
+
+    /* success toast */
+    .toast {
+      display: none;
+      margin-top: 0.75rem;
+      padding: 0.55rem 0.9rem;
+      border-radius: 7px;
+      background: var(--accent-light);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
     /* FOOTER */
     footer {
       max-width: 680px;
@@ -444,6 +552,14 @@
     .fade-in.visible {
       opacity: 1;
       transform: none;
+    }
+
+    @media (max-width: 700px) {
+      .contact-columns {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      #contact { max-width: 680px; }
     }
 
     @media (max-width: 600px) {
@@ -580,17 +696,11 @@
           <div class="project-body">
             <div class="project-inner">
               <ul class="feature-list">
-                <li>Production API Architecture -
-Built a REST API layer using FastAPI that completely separates frontend and backend — Streamlit communicates via HTTP requests instead of direct imports, making the backend reusable by any client (mobile, web, other services).</li>
-                <li>JWT Authentication System -
-Implemented secure user authentication from scratch — bcrypt password hashing, JWT token generation, protected routes using FastAPI's dependency injection. Users can register, login, and their data is completely isolated from other users.</li>
-                <li>Persistent AI Memory with PostgreSQL -
-Used LangGraph's checkpointer with PostgreSQL to persist full conversation history per user — chat survives page refresh, logout, and device changes. Not just in-memory storage but real production-grade persistence.</li>
-                <li>LangGraph Orchestration -
-Built the AI pipeline using LangGraph's stateful graph architecture with token trimming to prevent context blowup — the same pattern used by production AI systems like Perplexity and ChatGPT.</li>
-                <li>Fully Containerized & Deployed -
-Entire stack (FastAPI + Streamlit + PostgreSQL) containerized with Docker and docker-compose — runs with one command on any machine.</li>
-    
+                <li>Production API Architecture — Built a REST API layer using FastAPI that completely separates frontend and backend — Streamlit communicates via HTTP requests instead of direct imports, making the backend reusable by any client (mobile, web, other services).</li>
+                <li>JWT Authentication System — Implemented secure user authentication from scratch — bcrypt password hashing, JWT token generation, protected routes using FastAPI's dependency injection.</li>
+                <li>Persistent AI Memory with PostgreSQL — Used LangGraph's checkpointer with PostgreSQL to persist full conversation history per user — chat survives page refresh, logout, and device changes.</li>
+                <li>LangGraph Orchestration — Built the AI pipeline using LangGraph's stateful graph architecture with token trimming to prevent context blowup.</li>
+                <li>Fully Containerized & Deployed — Entire stack (FastAPI + Streamlit + PostgreSQL) containerized with Docker and docker-compose — runs with one command on any machine.</li>
               </ul>
             </div>
           </div>
@@ -619,11 +729,11 @@ Entire stack (FastAPI + Streamlit + PostgreSQL) containerized with Docker and do
           <div class="project-body">
             <div class="project-inner">
               <ul class="feature-list">
-                <li>Built a multi-document RAG pipeline that semantically searches across up to 4 research papers simultaneously using Sentence Transformers (all-MiniLM-L6-v2) and Qdrant vector database with cosine similarity scoring.</li>
-                <li>Designed a semantic transparency layer that surfaces per-document relevance scores, global top-3 chunks, and per-paper chunk breakdowns — giving users full visibility into how every answer was generated.</li>
-                <li>Engineered a multi-layer anti-hallucination system using confidence score thresholds (0.45/0.55), strict LLM system prompting, and source citation enforcement to ensure answers are strictly grounded in uploaded documents.</li>
-                <li>Built a production-ready backend with FastAPI featuring multi-turn conversational memory (last 5 messages), persistent PostgreSQL session storage, and a RESTful API with upload, chat, and history endpoints.</li>
-                <li>Deployed a full-stack AI application with a FastAPI backend and Streamlit frontend on HuggingFace Spaces, using Qdrant Cloud for vector storage and Neon for serverless PostgreSQL — fully cloud-hosted with zero local dependencies.</li>
+                <li>Built a multi-document RAG pipeline that semantically searches across up to 4 research papers simultaneously using Sentence Transformers and Qdrant vector database with cosine similarity scoring.</li>
+                <li>Designed a semantic transparency layer that surfaces per-document relevance scores, global top-3 chunks, and per-paper chunk breakdowns.</li>
+                <li>Engineered a multi-layer anti-hallucination system using confidence score thresholds, strict LLM system prompting, and source citation enforcement.</li>
+                <li>Built a production-ready backend with FastAPI featuring multi-turn conversational memory, persistent PostgreSQL session storage, and a RESTful API.</li>
+                <li>Deployed on HuggingFace Spaces using Qdrant Cloud for vector storage and Neon for serverless PostgreSQL — fully cloud-hosted with zero local dependencies.</li>
               </ul>
             </div>
           </div>
@@ -634,7 +744,7 @@ Entire stack (FastAPI + Streamlit + PostgreSQL) containerized with Docker and do
 
     <!-- WRITING -->
     <section id="writing">
-      <p class="section-label">Sometimes I write(My Blogs)</p>
+      <p class="section-label">Sometimes I write (My Blogs)</p>
       <div class="writing-list fade-in">
         <a href="https://medium.com/p/f8045a07b12d" class="writing-item">
           <span class="writing-title">Neural Networks and PyTorch</span>
@@ -645,7 +755,7 @@ Entire stack (FastAPI + Streamlit + PostgreSQL) containerized with Docker and do
         <a href="https://medium.com/p/fe47833cf8fd" class="writing-item">
           <span class="writing-title">Vector Databases</span>
         </a>
-         <a href="https://www.notion.so/Scalable-AI-Architectures-3399b2dc181d80d5b8b6dafa8de3c1db?source=copy_link" class="writing-item">
+        <a href="https://www.notion.so/Scalable-AI-Architectures-3399b2dc181d80d5b8b6dafa8de3c1db?source=copy_link" class="writing-item">
           <span class="writing-title">Scalable AI Architectures</span>
         </a>
       </div>
@@ -655,14 +765,15 @@ Entire stack (FastAPI + Streamlit + PostgreSQL) containerized with Docker and do
     <section id="myrecommendations">
       <p class="section-label">My Recommendations to check</p>
       <div class="writing-list fade-in">
-        <a href=https://ocw.mit.edu/" class="writing-item">
+        <a href="https://ocw.mit.edu/" class="writing-item">
           <span class="writing-title">MIT OpenCourseWare</span>
         </a>
         <a href="https://www.deeplearning.ai/" class="writing-item">
           <span class="writing-title">DeepLearning.ai</span>
         </a>
         <a href="https://online.stanford.edu/" class="writing-item">
-          <span class="writing-title">Stanford.online</span>
+          <span class="writing-title">Stanford Online</span>
+        </a>
       </div>
     </section>
 
@@ -670,19 +781,54 @@ Entire stack (FastAPI + Streamlit + PostgreSQL) containerized with Docker and do
     <section id="contact">
       <p class="section-label">Contact</p>
       <p class="contact-intro fade-in">I'm always happy to chat — about projects, ideas, or just to say hello.</p>
-      <div class="contact-links fade-in">
-        <a href="mailto:work.cookie.0212@gmail.com" class="contact-link">
-          <span>Email</span>
-          <span>work.cookie.0212@gmail.com →</span>
-        </a>
-        <a href="https://github.com/cookieshop02" target="_blank" class="contact-link">
-          <span>GitHub</span>
-          <span>github.com/cookieshop02 →</span>
-        </a>
-        <a href="https://x.com/techwithcook" target="_blank" class="contact-link">
-          <span>Twitter / X</span>
-          <span>@X →</span>
-        </a>
+
+      <div class="contact-columns fade-in">
+
+        <!-- LEFT: links -->
+        <div class="contact-links">
+          <a href="mailto:work.cookie.0212@gmail.com" class="contact-link">
+            <span>Email</span>
+            <span>work.cookie.0212@gmail.com →</span>
+          </a>
+          <a href="https://github.com/cookieshop02" target="_blank" class="contact-link">
+            <span>GitHub</span>
+            <span>github.com/cookieshop02 →</span>
+          </a>
+          <a href="https://x.com/techwithcook" target="_blank" class="contact-link">
+            <span>Twitter / X</span>
+            <span>@techwithcook →</span>
+          </a>
+        </div>
+
+        <!-- RIGHT: message box -->
+        <div class="contact-form-wrap">
+          <h3>Send a message</h3>
+          <p>Drop me a note and it'll land straight in my inbox.</p>
+
+          <div class="form-field">
+            <label for="msg-name">Your name</label>
+            <input type="text" id="msg-name" placeholder="Jane Doe" autocomplete="off" />
+          </div>
+
+          <div class="form-field">
+            <label for="msg-email">Your email</label>
+            <input type="email" id="msg-email" placeholder="jane@example.com" autocomplete="off" />
+          </div>
+
+          <div class="form-field">
+            <label for="msg-body">Message</label>
+            <textarea id="msg-body" placeholder="Hey Shivanshi, I'd love to…"></textarea>
+          </div>
+
+          <button class="send-btn" onclick="sendMessage()">
+            Send →
+          </button>
+
+          <div class="toast" id="form-toast">
+            ✓ Opening your mail client — message pre-filled!
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -694,6 +840,7 @@ Entire stack (FastAPI + Streamlit + PostgreSQL) containerized with Docker and do
   </footer>
 
   <script>
+    /* fade-in on scroll */
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
@@ -705,10 +852,42 @@ Entire stack (FastAPI + Streamlit + PostgreSQL) containerized with Docker and do
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
+    /* accordion */
     function toggleProject(btn) {
       const card = btn.closest('.project-card');
       card.classList.toggle('open');
-      btn.childNodes[0].textContent = card.classList.contains('open') ? 'less details ' : 'more details ';
+      btn.childNodes[0].textContent = card.classList.contains('open') ? 'less details ' : 'Expand to know more ';
+    }
+
+    /* contact form — opens mail client with pre-filled content */
+    function sendMessage() {
+      const name    = document.getElementById('msg-name').value.trim();
+      const email   = document.getElementById('msg-email').value.trim();
+      const body    = document.getElementById('msg-body').value.trim();
+
+      if (!name || !email || !body) {
+        alert('Please fill in all fields before sending.');
+        return;
+      }
+
+      const subject = encodeURIComponent('Message from ' + name + ' via Portfolio');
+      const bodyText = encodeURIComponent(
+        'Hi Shivanshi,\n\n' + body +
+        '\n\n—\n' + name + '\n' + email
+      );
+
+      window.location.href =
+        'mailto:work.cookie.0212@gmail.com?subject=' + subject + '&body=' + bodyText;
+
+      /* show toast */
+      const toast = document.getElementById('form-toast');
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 5000);
+
+      /* clear fields */
+      document.getElementById('msg-name').value  = '';
+      document.getElementById('msg-email').value = '';
+      document.getElementById('msg-body').value  = '';
     }
   </script>
 
