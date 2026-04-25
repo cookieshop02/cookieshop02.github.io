@@ -896,5 +896,266 @@
     }
   </script>
 
+  <!-- ═══════════════════════════════════════
+       RUNAWAY CAT WITH GOOGLY EYES
+  ═══════════════════════════════════════ -->
+  <style>
+    #cat-wrap {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9999;
+      cursor: none;
+      pointer-events: none; /* hitbox handled by JS */
+      user-select: none;
+    }
+
+    #cat-svg {
+      width: 90px;
+      height: 90px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.18));
+      transition: transform 0.08s ease;
+    }
+
+    /* tooltip bubble */
+    #cat-tip {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      margin-bottom: 8px;
+      background: #fff;
+      border: 1.5px solid #e8e6e1;
+      border-radius: 12px 12px 2px 12px;
+      padding: 5px 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      color: #2d5a3d;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      opacity: 0;
+      transform: scale(0.85) translateY(4px);
+      transform-origin: bottom right;
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+    }
+    #cat-tip.show {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* running leg animation */
+    @keyframes legSwing {
+      0%,100% { transform: rotate(-18deg); }
+      50%      { transform: rotate(18deg); }
+    }
+    @keyframes tailWag {
+      0%,100% { transform: rotate(-20deg); }
+      50%      { transform: rotate(20deg); }
+    }
+    .leg { transform-origin: 50% 0%; }
+    .tail-group { transform-origin: 30% 80%; }
+
+    #cat-wrap.running .leg { animation: legSwing 0.22s ease-in-out infinite alternate; }
+    #cat-wrap.running .leg:nth-child(2) { animation-delay: 0.11s; }
+    #cat-wrap.running .leg:nth-child(3) { animation-delay: 0.055s; }
+    #cat-wrap.running .leg:nth-child(4) { animation-delay: 0.165s; }
+    #cat-wrap.running .tail-group { animation: tailWag 0.28s ease-in-out infinite alternate; }
+
+    /* bounce idle */
+    @keyframes idleBob {
+      0%,100% { transform: translateY(0px); }
+      50%      { transform: translateY(-5px); }
+    }
+    #cat-wrap.idle #cat-svg { animation: idleBob 2.2s ease-in-out infinite; }
+  </style>
+
+  <div id="cat-wrap" class="idle">
+    <div id="cat-tip">Don't touch me! 🐾</div>
+    <svg id="cat-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- TAIL -->
+      <g class="tail-group">
+        <path d="M28 72 Q10 60 14 44 Q18 30 26 38" stroke="#c8a87a" stroke-width="5"
+              fill="none" stroke-linecap="round"/>
+      </g>
+
+      <!-- BODY -->
+      <ellipse cx="52" cy="68" rx="22" ry="18" fill="#e8c99a"/>
+
+      <!-- LEGS (4) -->
+      <rect class="leg" x="35" y="80" width="7" height="14" rx="3.5" fill="#d4a96a"/>
+      <rect class="leg" x="44" y="82" width="7" height="12" rx="3.5" fill="#d4a96a"/>
+      <rect class="leg" x="56" y="82" width="7" height="12" rx="3.5" fill="#d4a96a"/>
+      <rect class="leg" x="65" y="80" width="7" height="14" rx="3.5" fill="#d4a96a"/>
+
+      <!-- NECK -->
+      <ellipse cx="52" cy="54" rx="13" ry="10" fill="#e8c99a"/>
+
+      <!-- HEAD -->
+      <ellipse cx="52" cy="40" rx="20" ry="18" fill="#f0d5a8"/>
+
+      <!-- EARS -->
+      <polygon points="35,27 30,12 44,22" fill="#f0d5a8"/>
+      <polygon points="37,26 33,16 43,23" fill="#e8a0a0"/>
+      <polygon points="69,27 74,12 60,22" fill="#f0d5a8"/>
+      <polygon points="67,26 71,16 61,23" fill="#e8a0a0"/>
+
+      <!-- GOOGLY EYE LEFT — whites + pupils -->
+      <circle id="eye-white-l" cx="43" cy="40" r="7" fill="white" stroke="#c8a060" stroke-width="1"/>
+      <circle id="eye-pupil-l" cx="43" cy="40" r="3.5" fill="#1a1a18"/>
+      <circle id="eye-shine-l" cx="44.2" cy="38.8" r="1.2" fill="white"/>
+
+      <!-- GOOGLY EYE RIGHT -->
+      <circle id="eye-white-r" cx="61" cy="40" r="7" fill="white" stroke="#c8a060" stroke-width="1"/>
+      <circle id="eye-pupil-r" cx="61" cy="40" r="3.5" fill="#1a1a18"/>
+      <circle id="eye-shine-r" cx="62.2" cy="38.8" r="1.2" fill="white"/>
+
+      <!-- NOSE -->
+      <ellipse cx="52" cy="46" rx="3" ry="2" fill="#e88080"/>
+      <!-- MOUTH -->
+      <path d="M49 48 Q52 51 55 48" stroke="#c06060" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <!-- WHISKERS -->
+      <line x1="30" y1="45" x2="44" y2="46" stroke="#a08060" stroke-width="0.8" opacity="0.7"/>
+      <line x1="30" y1="48" x2="44" y2="48" stroke="#a08060" stroke-width="0.8" opacity="0.7"/>
+      <line x1="60" y1="46" x2="74" y2="45" stroke="#a08060" stroke-width="0.8" opacity="0.7"/>
+      <line x1="60" y1="48" x2="74" y2="48" stroke="#a08060" stroke-width="0.8" opacity="0.7"/>
+
+      <!-- STRIPES on head -->
+      <path d="M46 24 Q52 20 58 24" stroke="#d4a96a" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <path d="M44 28 Q52 24 60 28" stroke="#d4a96a" stroke-width="1" fill="none" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <script>
+    (function() {
+      const wrap   = document.getElementById('cat-wrap');
+      const svg    = document.getElementById('cat-svg');
+      const tip    = document.getElementById('cat-tip');
+      const pupilL = document.getElementById('eye-pupil-l');
+      const pupilR = document.getElementById('eye-pupil-r');
+      const shineL = document.getElementById('eye-shine-l');
+      const shineR = document.getElementById('eye-shine-r');
+
+      /* Cat position (centre of cat) */
+      const catW = 90, catH = 90;
+      let catX = window.innerWidth  - 28 - catW / 2;
+      let catY = window.innerHeight - 28 - catH / 2;
+
+      /* Velocity for smooth glide */
+      let vx = 0, vy = 0;
+      let running = false;
+      let idleTimer = null;
+
+      /* Place cat at given centre coords (clamped to viewport) */
+      function placeCat(cx, cy) {
+        cx = Math.max(catW/2 + 8, Math.min(window.innerWidth  - catW/2 - 8, cx));
+        cy = Math.max(catH/2 + 8, Math.min(window.innerHeight - catH/2 - 8, cy));
+        catX = cx; catY = cy;
+        wrap.style.left   = (cx - catW/2) + 'px';
+        wrap.style.top    = (cy - catH/2) + 'px';
+        wrap.style.bottom = 'unset';
+        wrap.style.right  = 'unset';
+      }
+      placeCat(catX, catY);
+
+      /* ── Googly eye logic ── */
+      function movePupil(pupil, shine, eyeCX, eyeCY, mx, my, rect) {
+        /* Convert SVG eye centre to screen coords */
+        const scaleX = rect.width  / 100;
+        const scaleY = rect.height / 100;
+        const eyeScreenX = rect.left + eyeCX * scaleX;
+        const eyeScreenY = rect.top  + eyeCY * scaleY;
+
+        const dx = mx - eyeScreenX;
+        const dy = my - eyeScreenY;
+        const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        const maxMove = 2.8;
+        const px = eyeCX + (dx / dist) * Math.min(dist * 0.18, maxMove);
+        const py = eyeCY + (dy / dist) * Math.min(dist * 0.18, maxMove);
+
+        pupil.setAttribute('cx', px);
+        pupil.setAttribute('cy', py);
+        shine.setAttribute('cx', px + 1.2);
+        shine.setAttribute('cy', py - 1.2);
+      }
+
+      /* ── Run-away logic ── */
+      const RUN_DIST   = 130;  /* pixels — how close before cat flees */
+      const RUN_SPEED  = 14;   /* pixels per frame */
+      const FRICTION   = 0.82;
+
+      function flee(mx, my) {
+        const dx = catX - mx;
+        const dy = catY - my;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < RUN_DIST) {
+          /* Push away from cursor */
+          const angle = Math.atan2(dy, dx);
+          const force = (RUN_DIST - dist) / RUN_DIST * RUN_SPEED;
+          vx += Math.cos(angle) * force;
+          vy += Math.sin(angle) * force;
+          if (!running) {
+            running = true;
+            wrap.classList.remove('idle');
+            wrap.classList.add('running');
+            tip.classList.add('show');
+          }
+          clearTimeout(idleTimer);
+        }
+      }
+
+      function updateCat() {
+        if (Math.abs(vx) > 0.3 || Math.abs(vy) > 0.3) {
+          vx *= FRICTION;
+          vy *= FRICTION;
+          const newX = catX + vx;
+          const newY = catY + vy;
+
+          /* Bounce off walls */
+          const clampedX = Math.max(catW/2+8, Math.min(window.innerWidth  - catW/2 - 8, newX));
+          const clampedY = Math.max(catH/2+8, Math.min(window.innerHeight - catH/2 - 8, newY));
+          if (clampedX !== newX) vx *= -0.5;
+          if (clampedY !== newY) vy *= -0.5;
+          placeCat(clampedX, clampedY);
+
+          /* Flip horizontally when running left */
+          svg.style.transform = vx < -0.5 ? 'scaleX(-1)' : 'scaleX(1)';
+        } else if (running) {
+          running = false;
+          wrap.classList.remove('running');
+          svg.style.transform = 'scaleX(1)';
+          idleTimer = setTimeout(() => {
+            wrap.classList.add('idle');
+            tip.classList.remove('show');
+          }, 600);
+        }
+        requestAnimationFrame(updateCat);
+      }
+
+      /* ── Mouse move handler ── */
+      document.addEventListener('mousemove', function(e) {
+        const mx = e.clientX, my = e.clientY;
+        const rect = svg.getBoundingClientRect();
+
+        /* Googly eyes */
+        movePupil(pupilL, shineL, 43, 40, mx, my, rect);
+        movePupil(pupilR, shineR, 61, 40, mx, my, rect);
+
+        /* Flee */
+        flee(mx, my);
+      });
+
+      /* Start animation loop */
+      updateCat();
+
+      /* ── Touch: tap near cat → run ── */
+      document.addEventListener('touchmove', function(e) {
+        const t = e.touches[0];
+        flee(t.clientX, t.clientY);
+      }, { passive: true });
+
+    })();
+  </script>
+
 </body>
 </html>
