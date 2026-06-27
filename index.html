@@ -211,11 +211,9 @@
     }
 
     /* ══════════════════════════════════════
-       PROJECTS — Rishi-inspired grid style
+       PROJECTS — Reference-style grid
     ══════════════════════════════════════ */
 
-
-    /* Subtitle under section label */
     .projects-subtitle {
       font-size: 0.95rem;
       color: var(--muted);
@@ -251,18 +249,19 @@
       color: #fff;
     }
 
-    /* Grid */
+    /* Grid — 3 equal columns */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.1rem;
+      gap: 1.2rem;
+      align-items: start;
     }
 
-    /* Individual card */
+    /* Card */
     .proj-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -270,84 +269,105 @@
     }
 
     .proj-card:hover {
-      box-shadow: 0 6px 28px rgba(0,0,0,0.09);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
       transform: translateY(-3px);
     }
 
     .proj-card.hidden { display: none; }
 
-    /* Thumbnail */
+    /* Thumbnail — fixed height so all cards align */
     .proj-thumb {
       width: 100%;
-      aspect-ratio: 16 / 9;
+      height: 160px;
       object-fit: cover;
       display: block;
       flex-shrink: 0;
     }
 
-    /* Gradient placeholder when no image */
+    /* Gradient placeholder */
     .proj-thumb-placeholder {
       width: 100%;
-      aspect-ratio: 16 / 9;
+      height: 160px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+      overflow: hidden;
     }
 
     .proj-thumb-placeholder svg {
-      width: 36px;
-      height: 36px;
-      opacity: 0.35;
+      width: 32px;
+      height: 32px;
+      opacity: 0.4;
     }
 
-    /* Card body */
+    /* Card body — compact */
     .proj-body {
-      padding: 1rem 1.1rem 1.1rem;
+      padding: 0.9rem 1rem 1rem;
       display: flex;
       flex-direction: column;
       flex: 1;
     }
 
+    /* Category pill on thumbnail */
+    .proj-category {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px);
+      color: rgba(255,255,255,0.9);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2rem;
+      font-family: var(--sans);
+      font-weight: 500;
+    }
+
     .proj-title {
       font-family: var(--serif);
-      font-size: 0.97rem;
+      font-size: 1rem;
       font-weight: 500;
       line-height: 1.35;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.45rem;
       color: var(--text);
     }
 
     .proj-desc {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--muted);
-      line-height: 1.55;
+      line-height: 1.5;
       flex: 1;
-      margin-bottom: 0.9rem;
+      margin-bottom: 0.85rem;
     }
 
-    /* Tech tags (small pills) */
+    /* Tech tags */
     .proj-tech {
       display: flex;
       flex-wrap: wrap;
       gap: 0.3rem;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.75rem;
     }
 
     .proj-tech span {
-      background: var(--accent-light);
-      color: var(--accent);
+      background: var(--bg);
+      color: var(--muted);
       font-size: 0.68rem;
       padding: 0.15rem 0.55rem;
       border-radius: 2rem;
-      font-weight: 500;
+      border: 1px solid var(--border);
+      font-weight: 400;
     }
 
-    /* Action links */
+    /* Action link */
     .proj-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
+      margin-top: auto;
     }
 
     .proj-action {
@@ -378,7 +398,7 @@
       stroke-width: 2;
     }
 
-    /* Responsive grid */
+    /* Responsive */
     @media (max-width: 820px) {
       .projects-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -425,8 +445,6 @@
     }
 
     /* CONTACT */
-
-
     .contact-intro {
       font-size: 1rem;
       color: var(--muted);
@@ -641,7 +659,7 @@
       </div>
     </section>
 
-    <!-- PROJECTS — Rishi-style grid -->
+    <!-- PROJECTS -->
     <section id="projects">
       <p class="section-label">Projects</p>
       <p class="projects-subtitle fade-in">A collection of AI &amp; backend projects in LLMs, Agents, and RAG systems.</p>
@@ -657,9 +675,10 @@
       <!-- Grid -->
       <div class="projects-grid">
 
-        <!-- Card 3: Mako -->
+        <!-- Card: Mako -->
         <div class="proj-card fade-in" data-tags="agents">
           <div class="proj-thumb-placeholder" style="background: linear-gradient(135deg, #2a1a1a 0%, #6b2d2d 55%, #a04a4a 100%);">
+            <span class="proj-category">AI Agent</span>
             <svg viewBox="0 0 24 24" stroke="white" fill="none" stroke-width="1.5">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
@@ -669,14 +688,13 @@
           </div>
           <div class="proj-body">
             <h3 class="proj-title">Mako</h3>
-            <p class="proj-desc">Built a Python-based multi-agent automation pipeline that converts meeting audio or transcripts into structured summaries, action items, Google Calendar follow-ups, Gmail reports, and local Markdown documentation.</p>
+            <p class="proj-desc">Multi-agent pipeline that converts meeting audio into summaries, action items, Calendar follow-ups, Gmail reports, and Markdown docs.</p>
             <div class="proj-tech">
               <span>Python</span>
-              <span>Groq/Anthropic</span>
-              <span>OpenAPI Whisper</span>
-              <span>argparse</span>
+              <span>Groq</span>
+              <span>Whisper</span>
               <span>FFmpeg</span>
-              <span>Google auth</span>
+              <span>Google Auth</span>
             </div>
             <div class="proj-actions">
               <a href="https://github.com/cookieshop02/Mako" class="proj-action" target="_blank">
@@ -686,19 +704,19 @@
             </div>
           </div>
         </div>
-        
-         <!-- Card 4: Math-RL-Agent -->
+
+        <!-- Card: Math-RL-Agent -->
         <div class="proj-card fade-in" data-tags="fullstack agents">
           <div class="proj-thumb-placeholder" style="background: linear-gradient(135deg, #1a1f3a 0%, #2d3a6b 55%, #4a5aa0 100%);">
+            <span class="proj-category">Full-Stack</span>
             <svg viewBox="0 0 24 24" stroke="white" fill="none" stroke-width="1.5">
-               <path d="M18 4H6l6 8-6 8h12"/>
+              <path d="M18 4H6l6 8-6 8h12"/>
             </svg>
           </div>
           <div class="proj-body">
             <h3 class="proj-title">Math-RL-Agent</h3>
-            <p class="proj-desc">An RL-based Math Problem Solving Agent — fine-tuned using GRPO algorithm (same technique used in DeepSeek-R1), deployed as a full-stack production app.</p>
+            <p class="proj-desc">RL-based math problem solver fine-tuned with GRPO (same technique as DeepSeek-R1), deployed as a full-stack production app.</p>
             <div class="proj-tech">
-              <span>Python</span>
               <span>PyTorch</span>
               <span>Unsloth</span>
               <span>Flask</span>
@@ -712,10 +730,11 @@
             </div>
           </div>
         </div>
-        
-        <!-- Card 1: Agent Debugging Replay Tool -->
+
+        <!-- Card: Agent Debugging Replay Tool -->
         <div class="proj-card fade-in" data-tags="agents fullstack">
           <div class="proj-thumb-placeholder" style="background: linear-gradient(135deg, #1a2f22 0%, #2d5a3d 60%, #4a8c62 100%);">
+            <span class="proj-category">AI Agent</span>
             <svg viewBox="0 0 24 24" stroke="white" fill="none" stroke-width="1.5">
               <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
               <path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/>
@@ -738,16 +757,17 @@
           </div>
         </div>
 
-        <!-- Card 2: Webot -->
+        <!-- Card: Webot -->
         <div class="proj-card fade-in" data-tags="fullstack agents">
           <div class="proj-thumb-placeholder" style="background: linear-gradient(135deg, #1a1f3a 0%, #2d3a6b 55%, #4a5aa0 100%);">
+            <span class="proj-category">Full-Stack</span>
             <svg viewBox="0 0 24 24" stroke="white" fill="none" stroke-width="1.5">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
           </div>
           <div class="proj-body">
             <h3 class="proj-title">Webot</h3>
-            <p class="proj-desc">A modular AI chatbot platform powered by LangGraph state machines, Groq LLM, and FastAPI with real-time streaming and Docker deployment.</p>
+            <p class="proj-desc">Modular AI chatbot platform powered by LangGraph state machines, Groq LLM, and FastAPI with real-time streaming and Docker deployment.</p>
             <div class="proj-tech">
               <span>LangGraph</span>
               <span>Groq</span>
@@ -763,9 +783,10 @@
           </div>
         </div>
 
-        <!-- Card 3: PaperLens -->
+        <!-- Card: PaperLens -->
         <div class="proj-card fade-in" data-tags="rag fullstack">
           <div class="proj-thumb-placeholder" style="background: linear-gradient(135deg, #2a1a1a 0%, #6b2d2d 55%, #a04a4a 100%);">
+            <span class="proj-category">RAG</span>
             <svg viewBox="0 0 24 24" stroke="white" fill="none" stroke-width="1.5">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
@@ -830,7 +851,7 @@
     </section>
 
     <!-- MY ACHIEVEMENTS -->
-    <section id="myrecommendations">
+    <section id="achievements">
       <p class="section-label">Achievements</p>
       <div class="writing-list fade-in">
         <a class="writing-item">
@@ -954,9 +975,7 @@
     }
   </script>
 
-  <!-- ═══════════════════════════════════════
-       RUNAWAY CAT WITH GOOGLY EYES
-  ═══════════════════════════════════════ -->
+  <!-- RUNAWAY CAT WITH GOOGLY EYES -->
   <style>
     #cat-wrap {
       position: fixed;
@@ -964,7 +983,7 @@
       right: 28px;
       z-index: 9999;
       cursor: none;
-      pointer-events: none; /* hitbox handled by JS */
+      pointer-events: none;
       user-select: none;
     }
 
@@ -975,7 +994,6 @@
       transition: transform 0.08s ease;
     }
 
-    /* tooltip bubble */
     #cat-tip {
       position: absolute;
       bottom: 100%;
@@ -1001,7 +1019,6 @@
       transform: scale(1) translateY(0);
     }
 
-    /* running leg animation */
     @keyframes legSwing {
       0%,100% { transform: rotate(-18deg); }
       50%      { transform: rotate(18deg); }
@@ -1019,7 +1036,6 @@
     #cat-wrap.running .leg:nth-child(4) { animation-delay: 0.165s; }
     #cat-wrap.running .tail-group { animation: tailWag 0.28s ease-in-out infinite alternate; }
 
-    /* bounce idle */
     @keyframes idleBob {
       0%,100% { transform: translateY(0px); }
       50%      { transform: translateY(-5px); }
@@ -1030,55 +1046,32 @@
   <div id="cat-wrap" class="idle">
     <div id="cat-tip">Don't touch me! 🐾</div>
     <svg id="cat-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-
-      <!-- TAIL -->
       <g class="tail-group">
-        <path d="M28 72 Q10 60 14 44 Q18 30 26 38" stroke="#c8a87a" stroke-width="5"
-              fill="none" stroke-linecap="round"/>
+        <path d="M28 72 Q10 60 14 44 Q18 30 26 38" stroke="#c8a87a" stroke-width="5" fill="none" stroke-linecap="round"/>
       </g>
-
-      <!-- BODY -->
       <ellipse cx="52" cy="68" rx="22" ry="18" fill="#e8c99a"/>
-
-      <!-- LEGS (4) -->
       <rect class="leg" x="35" y="80" width="7" height="14" rx="3.5" fill="#d4a96a"/>
       <rect class="leg" x="44" y="82" width="7" height="12" rx="3.5" fill="#d4a96a"/>
       <rect class="leg" x="56" y="82" width="7" height="12" rx="3.5" fill="#d4a96a"/>
       <rect class="leg" x="65" y="80" width="7" height="14" rx="3.5" fill="#d4a96a"/>
-
-      <!-- NECK -->
       <ellipse cx="52" cy="54" rx="13" ry="10" fill="#e8c99a"/>
-
-      <!-- HEAD -->
       <ellipse cx="52" cy="40" rx="20" ry="18" fill="#f0d5a8"/>
-
-      <!-- EARS -->
       <polygon points="35,27 30,12 44,22" fill="#f0d5a8"/>
       <polygon points="37,26 33,16 43,23" fill="#e8a0a0"/>
       <polygon points="69,27 74,12 60,22" fill="#f0d5a8"/>
       <polygon points="67,26 71,16 61,23" fill="#e8a0a0"/>
-
-      <!-- GOOGLY EYE LEFT — whites + pupils -->
       <circle id="eye-white-l" cx="43" cy="40" r="7" fill="white" stroke="#c8a060" stroke-width="1"/>
       <circle id="eye-pupil-l" cx="43" cy="40" r="3.5" fill="#1a1a18"/>
       <circle id="eye-shine-l" cx="44.2" cy="38.8" r="1.2" fill="white"/>
-
-      <!-- GOOGLY EYE RIGHT -->
       <circle id="eye-white-r" cx="61" cy="40" r="7" fill="white" stroke="#c8a060" stroke-width="1"/>
       <circle id="eye-pupil-r" cx="61" cy="40" r="3.5" fill="#1a1a18"/>
       <circle id="eye-shine-r" cx="62.2" cy="38.8" r="1.2" fill="white"/>
-
-      <!-- NOSE -->
       <ellipse cx="52" cy="46" rx="3" ry="2" fill="#e88080"/>
-      <!-- MOUTH -->
       <path d="M49 48 Q52 51 55 48" stroke="#c06060" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-      <!-- WHISKERS -->
       <line x1="30" y1="45" x2="44" y2="46" stroke="#a08060" stroke-width="0.8" opacity="0.7"/>
       <line x1="30" y1="48" x2="44" y2="48" stroke="#a08060" stroke-width="0.8" opacity="0.7"/>
       <line x1="60" y1="46" x2="74" y2="45" stroke="#a08060" stroke-width="0.8" opacity="0.7"/>
       <line x1="60" y1="48" x2="74" y2="48" stroke="#a08060" stroke-width="0.8" opacity="0.7"/>
-
-      <!-- STRIPES on head -->
       <path d="M46 24 Q52 20 58 24" stroke="#d4a96a" stroke-width="1.5" fill="none" opacity="0.6"/>
       <path d="M44 28 Q52 24 60 28" stroke="#d4a96a" stroke-width="1" fill="none" opacity="0.5"/>
     </svg>
@@ -1094,17 +1087,13 @@
       const shineL = document.getElementById('eye-shine-l');
       const shineR = document.getElementById('eye-shine-r');
 
-      /* Cat position (centre of cat) */
       const catW = 90, catH = 90;
       let catX = window.innerWidth  - 28 - catW / 2;
       let catY = window.innerHeight - 28 - catH / 2;
-
-      /* Velocity for smooth glide */
       let vx = 0, vy = 0;
       let running = false;
       let idleTimer = null;
 
-      /* Place cat at given centre coords (clamped to viewport) */
       function placeCat(cx, cy) {
         cx = Math.max(catW/2 + 8, Math.min(window.innerWidth  - catW/2 - 8, cx));
         cy = Math.max(catH/2 + 8, Math.min(window.innerHeight - catH/2 - 8, cy));
@@ -1116,38 +1105,32 @@
       }
       placeCat(catX, catY);
 
-      /* ── Googly eye logic ── */
       function movePupil(pupil, shine, eyeCX, eyeCY, mx, my, rect) {
-        /* Convert SVG eye centre to screen coords */
         const scaleX = rect.width  / 100;
         const scaleY = rect.height / 100;
         const eyeScreenX = rect.left + eyeCX * scaleX;
         const eyeScreenY = rect.top  + eyeCY * scaleY;
-
         const dx = mx - eyeScreenX;
         const dy = my - eyeScreenY;
         const dist = Math.sqrt(dx*dx + dy*dy) || 1;
         const maxMove = 2.8;
         const px = eyeCX + (dx / dist) * Math.min(dist * 0.18, maxMove);
         const py = eyeCY + (dy / dist) * Math.min(dist * 0.18, maxMove);
-
         pupil.setAttribute('cx', px);
         pupil.setAttribute('cy', py);
         shine.setAttribute('cx', px + 1.2);
         shine.setAttribute('cy', py - 1.2);
       }
 
-      /* ── Run-away logic ── */
-      const RUN_DIST   = 130;  /* pixels — how close before cat flees */
-      const RUN_SPEED  = 14;   /* pixels per frame */
-      const FRICTION   = 0.82;
+      const RUN_DIST  = 130;
+      const RUN_SPEED = 14;
+      const FRICTION  = 0.82;
 
       function flee(mx, my) {
         const dx = catX - mx;
         const dy = catY - my;
         const dist = Math.sqrt(dx*dx + dy*dy);
         if (dist < RUN_DIST) {
-          /* Push away from cursor */
           const angle = Math.atan2(dy, dx);
           const force = (RUN_DIST - dist) / RUN_DIST * RUN_SPEED;
           vx += Math.cos(angle) * force;
@@ -1168,15 +1151,11 @@
           vy *= FRICTION;
           const newX = catX + vx;
           const newY = catY + vy;
-
-          /* Bounce off walls */
           const clampedX = Math.max(catW/2+8, Math.min(window.innerWidth  - catW/2 - 8, newX));
           const clampedY = Math.max(catH/2+8, Math.min(window.innerHeight - catH/2 - 8, newY));
           if (clampedX !== newX) vx *= -0.5;
           if (clampedY !== newY) vy *= -0.5;
           placeCat(clampedX, clampedY);
-
-          /* Flip horizontally when running left */
           svg.style.transform = vx < -0.5 ? 'scaleX(-1)' : 'scaleX(1)';
         } else if (running) {
           running = false;
@@ -1190,23 +1169,16 @@
         requestAnimationFrame(updateCat);
       }
 
-      /* ── Mouse move handler ── */
       document.addEventListener('mousemove', function(e) {
         const mx = e.clientX, my = e.clientY;
         const rect = svg.getBoundingClientRect();
-
-        /* Googly eyes */
         movePupil(pupilL, shineL, 43, 40, mx, my, rect);
         movePupil(pupilR, shineR, 61, 40, mx, my, rect);
-
-        /* Flee */
         flee(mx, my);
       });
 
-      /* Start animation loop */
       updateCat();
 
-      /* ── Touch: tap near cat → run ── */
       document.addEventListener('touchmove', function(e) {
         const t = e.touches[0];
         flee(t.clientX, t.clientY);
