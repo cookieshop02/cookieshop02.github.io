@@ -78,7 +78,7 @@
     main { padding-top: 56px; }
 
     section {
-      max-width: 960px;
+      max-width: 1140px;
       margin: 0 auto;
       padding: 96px 2rem;
     }
@@ -252,7 +252,7 @@
     /* Grid — 3 equal columns */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,minmax(0, 1fr));
       gap: 1.2rem;
       align-items: stretch;
     }
@@ -343,10 +343,6 @@
       line-height: 1.5;
       flex: 1;
       margin-bottom: 0.85rem;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
 
     /* Tech tags */
