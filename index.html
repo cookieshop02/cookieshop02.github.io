@@ -1485,7 +1485,49 @@
 
     })();
   </script>
-
+  
+  <!-- FLIP CARD JS -->
+  <script>
+    (function() {
+      const inner = document.getElementById('flip-inner');
+      const card  = document.getElementById('flip-card');
+      let flipTimer = null;
+  
+      function flipTo(show) {
+        if (show) {
+          inner.classList.add('flipped');
+          clearTimeout(flipTimer);
+          flipTimer = setTimeout(() => inner.classList.remove('flipped'), 5000);
+        } else {
+          clearTimeout(flipTimer);
+          inner.classList.remove('flipped');
+        }
+      }
+  
+      // Mouse hover on card
+      card.addEventListener('mouseenter', () => flipTo(true));
+      card.addEventListener('mouseleave', () => {
+        clearTimeout(flipTimer);
+        flipTimer = setTimeout(() => inner.classList.remove('flipped'), 5000);
+      });
+  
+      // Watch cat position — flip if cat overlaps the card
+      const heroWrap = document.getElementById('hero-photo-wrap');
+      function checkCatOverlap() {
+        const catEl = document.getElementById('cat-wrap');
+        if (!catEl || !heroWrap) return;
+        const catR  = catEl.getBoundingClientRect();
+        const cardR = heroWrap.getBoundingClientRect();
+        const overlap = !(catR.right  < cardR.left  ||
+                          catR.left   > cardR.right  ||
+                          catR.bottom < cardR.top    ||
+                          catR.top    > cardR.bottom);
+        if (overlap) flipTo(true);
+        requestAnimationFrame(checkCatOverlap);
+      }
+      requestAnimationFrame(checkCatOverlap);
+    })();
+  </script>
 </body>
 </html>
 
