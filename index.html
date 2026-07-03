@@ -1192,96 +1192,105 @@
 
   <!-- GITHUB CONTRIBUTIONS GRAPH -->
   <script>
-    (async function() {
-      const username = 'cookieshop02';
-      const grid = document.getElementById('gh-grid');
-      const countEl = document.getElementById('gh-count');
-      const monthsEl = document.getElementById('gh-months');
-    
-      const colors = ['#e8e6e1','#b8d4be','#7aab86','#3d7a50','#1a3d28'];
-      function getColor(count) {
-        if (count === 0) return colors[0];
-        if (count <= 2) return colors[1];
-        if (count <= 5) return colors[2];
-        if (count <= 9) return colors[3];
-        return colors[4];
-      }
-    
-      function buildDays() {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const start = new Date(today);
-        start.setDate(today.getDate() - (52 * 7) - today.getDay());
-    
-        const days = [];
-        for (let i = 0; i < 53 * 7; i++) {
-          const d = new Date(start);
-          d.setDate(start.getDate() + i);
-          if (d <= today) {
-            days.push({
-              date: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`,
-              month: d.getMonth(),   // <-- taken from the same local Date, no re-parsing
-              count: 0
-            });
+     (async function() {
+        const username = 'cookieshop02';
+        const grid = document.getElementById('gh-grid');
+        const countEl = document.getElementById('gh-count');
+        const monthsEl = document.getElementById('gh-months');
+      
+        const colors = ['#e8e6e1','#b8d4be','#7aab86','#3d7a50','#1a3d28'];
+        function getColor(count) {
+          if (count === 0) return colors[0];
+          if (count <= 2) return colors[1];
+          if (count <= 5) return colors[2];
+          if (count <= 9) return colors[3];
+          return colors[4];
+        }
+      
+        function buildDays() {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const start = new Date(today);
+          start.setDate(today.getDate() - (52 * 7) - today.getDay());
+      
+          const days = [];
+          for (let i = 0; i < 53 * 7; i++) {
+            const d = new Date(start);
+            d.setDate(start.getDate() + i);
+            if (d <= today) {
+              days.push({
+                date: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`,
+                month: d.getMonth(),
+                count: 0
+              });
+            }
+          }
+          return days;
+        }
+      
+        async function fetchContributions() {
+          try {
+            const url = `https://github-contributions-api.jogruber.de/v4/${username}?y=last&t=${Date.now()}`;
+            const res = await fetch(url, { cache: "reload" });
+            if (!res.ok) throw new Error('fetch failed');
+            const data = await res.json();
+            return data.contributions || [];
+          } catch (e) {
+            return [];
           }
         }
-        return days;
-      }
-    
-      async function fetchContributions() {
-        try {
-          const url = `https://github-contributions-api.jogruber.de/v4/${username}?y=last&t=${Date.now()}`;
-          const res = await fetch(url, { cache: "reload" });
-          if (!res.ok) throw new Error('fetch failed');
-          const data = await res.json();
-          return data.contributions || [];
-        } catch (e) {
-          return [];
-        }
-      }
-    
-      const days = buildDays();
-      const contributions = await fetchContributions();
-    
-      const contribMap = {};
-      contributions.forEach(c => { contribMap[c.date] = c.count; });
-      days.forEach(d => { d.count = contribMap[d.date] || 0; });
-    
-      const total = days.reduce((s, d) => s + d.count, 0);
-      countEl.textContent = `${total} contributions in the last year`;
-    
-      grid.innerHTML = '';
-      days.forEach(d => {
-        const cell = document.createElement('div');
-        cell.className = 'gh-cell';
-        cell.style.background = getColor(d.count);
-        cell.title = `${d.date}: ${d.count} contribution${d.count !== 1 ? 's' : ''}`;
-        grid.appendChild(cell);
-      });
-    
-      // Month labels — absolutely positioned to match grid columns exactly
-      const COL_WIDTH = 15; // 12px cell + 3px gap
-      const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    
-      monthsEl.innerHTML = '';
-      monthsEl.style.position = 'relative';
-      monthsEl.style.height = '16px';
-    
-      let lastMonth = -1;
-      days.forEach((d, i) => {
-        const week = Math.floor(i / 7);
-        if (d.month !== lastMonth) {
-          lastMonth = d.month;
-          const label = document.createElement('span');
-          label.className = 'gh-month-label';
-          label.textContent = monthNames[d.month];
-          label.style.position = 'absolute';
-          label.style.left = (week * COL_WIDTH) + 'px';
-          label.style.whiteSpace = 'nowrap';
-          monthsEl.appendChild(label);
-        }
-      });
-     })();
+      
+        const days = buildDays();
+        const contributions = await fetchContributions();
+      
+        const contribMap = {};
+        contributions.forEach(c => { contribMap[c.date] = c.count; });
+        days.forEach(d => { d.count = contribMap[d.date] || 0; });
+      
+        const total = days.reduce((s, d) => s + d.count, 0);
+        countEl.textContent = `${total} contributions in the last year`;
+      
+        grid.innerHTML = '';
+        days.forEach(d => {
+          const cell = document.createElement('div');
+          cell.className = 'gh-cell';
+          cell.style.background = getColor(d.count);
+          cell.title = `${d.date}: ${d.count} contribution${d.count !== 1 ? 's' : ''}`;
+          grid.appendChild(cell);
+        });
+      
+        // Month labels — absolutely positioned, with a minimum gap so text never overlaps
+        const COL_WIDTH = 15;      // 12px cell + 3px gap
+        const MIN_LABEL_GAP = 32;  // minimum px between label start positions
+        const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      
+        monthsEl.innerHTML = '';
+        monthsEl.style.position = 'relative';
+        monthsEl.style.height = '16px';
+      
+        let lastMonth = -1;
+        let lastLabelX = -Infinity;
+      
+        days.forEach((d, i) => {
+          const week = Math.floor(i / 7);
+          const x = week * COL_WIDTH;
+      
+          if (d.month !== lastMonth) {
+            lastMonth = d.month;
+            // only place the label if there's enough room since the last one
+            if (x - lastLabelX >= MIN_LABEL_GAP) {
+              const label = document.createElement('span');
+              label.className = 'gh-month-label';
+              label.textContent = monthNames[d.month];
+              label.style.position = 'absolute';
+              label.style.left = x + 'px';
+              label.style.whiteSpace = 'nowrap';
+              monthsEl.appendChild(label);
+              lastLabelX = x;
+            }
+          }
+        });
+      })();
   </script>
 
   <!-- RUNAWAY CAT WITH GOOGLY EYES -->
