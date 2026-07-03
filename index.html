@@ -1219,9 +1219,10 @@
             d.setDate(start.getDate() + i);
             if (d <= today) {
               days.push({
-                date: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`,
-                month: d.getMonth(),
-                count: 0
+                  date: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`,
+                  month: d.getMonth(),
+                  day: d.getDate(),     
+                  count: 0
               });
             }
           }
@@ -1259,36 +1260,32 @@
           grid.appendChild(cell);
         });
       
-        // Month labels — absolutely positioned, with a minimum gap so text never overlaps
-        const COL_WIDTH = 15;      // 12px cell + 3px gap
-        const MIN_LABEL_GAP = 32;  // minimum px between label start positions
+        // Month labels
+        const COL_WIDTH = 15;
         const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      
+        
         monthsEl.innerHTML = '';
         monthsEl.style.position = 'relative';
         monthsEl.style.height = '16px';
-      
-        let lastMonth = -1;
-        let lastLabelX = -Infinity;
-      
+        
+        const shownMonths = new Set();
+        
         days.forEach((d, i) => {
-          const week = Math.floor(i / 7);
-          const x = week * COL_WIDTH;
-      
-          if (d.month !== lastMonth) {
-            lastMonth = d.month;
-            // only place the label if there's enough room since the last one
-            if (x - lastLabelX >= MIN_LABEL_GAP) {
-              const label = document.createElement('span');
-              label.className = 'gh-month-label';
-              label.textContent = monthNames[d.month];
-              label.style.position = 'absolute';
-              label.style.left = x + 'px';
-              label.style.whiteSpace = 'nowrap';
-              monthsEl.appendChild(label);
-              lastLabelX = x;
+            const week = Math.floor(i / 7);
+        
+            // Show only one label per month,
+            // preferably during the first week of that month.
+            if (!shownMonths.has(d.month) && d.day === 1) {
+                shownMonths.add(d.month);
+        
+                const label = document.createElement('span');
+                label.className = 'gh-month-label';
+                label.textContent = monthNames[d.month];
+                label.style.position = 'absolute';
+                label.style.left = `${week * COL_WIDTH}px`;
+        
+                monthsEl.appendChild(label);
             }
-          }
         });
       })();
   </script>
