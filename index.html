@@ -1219,7 +1219,7 @@
         const d = new Date(start);
         d.setDate(start.getDate() + i);
         if (d <= today) {
-          days.push({ date: d.toISOString().slice(0,10), count: 0 });
+          days.push({ date: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`, count: 0 });
         }
       }
       return days;
@@ -1228,8 +1228,10 @@
     // Fetch via GitHub contributions API (CORS-friendly proxy)
     async function fetchContributions() {
       try {
-        const url = `https://github-contributions-api.jogruber.de/v4/${username}?y=last`;
-        const res = await fetch(url);
+        const url = `https://github-contributions-api.jogruber.de/v4/${username}?y=last&t=${Date.now()}`;
+        const res = await fetch(url, {
+                     cache: "reload"
+        });
         if (!res.ok) throw new Error('fetch failed');
         const data = await res.json();
         return data.contributions || [];
@@ -1546,32 +1548,7 @@
       requestAnimationFrame(checkCatOverlap);*/
     })();
   </script>
-  <script>
-    async function loadContributions() {
-      const username = "cookieshop02"; // your GitHub username
-      const response = await fetch(`https://github-contributions-api.deno.dev/${username}.json`);
-      const data = await response.json();
   
-      // Find your grid container
-      const grid = document.querySelector(".gh-grid");
-      if (!grid) return;
-  
-      // Clear existing cells
-      grid.innerHTML = "";
-  
-      // Loop through contributions and create cells
-      data.contributions.forEach(day => {
-        const cell = document.createElement("div");
-        cell.className = "gh-cell";
-        cell.style.backgroundColor = day.color; // API gives color intensity
-        cell.title = `${day.date}: ${day.count} contributions`;
-        grid.appendChild(cell);
-      });
-    }
-  
-    loadContributions();
-  </script>
-
 </body>
 </html>
 
