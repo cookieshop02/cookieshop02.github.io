@@ -144,47 +144,59 @@
       }
 
       /* ── PHOTOS ── */
-          .photos{padding:72px 0}
+      .photos{padding:72px 0}
 
-    .strip{
-      display:grid;
-      grid-template-columns:repeat(5, minmax(0,1fr));
-      gap:12px;
-    }
+        .strip{
+          display:grid;
+          grid-template-columns:repeat(5, minmax(0,1fr));
+          gap:12px;
+          align-items:center;
+        }
+    
+        .strip figure{
+          margin:0;
+          aspect-ratio:3/4;
+          border-radius:10px;
+          overflow:hidden;
+          background:linear-gradient(150deg,#e9e6df,#d6d2c8);
+          position:relative;
+          z-index:1;
+          will-change:transform;
+          transition:transform .38s cubic-bezier(.2,.8,.2,1), box-shadow .38s ease;
+        }
+    
+        .strip img{
+          width:100%;
+          height:100%;
+          object-fit:cover;
+          display:block;
+          filter:saturate(.92);
+          transition:filter .38s ease;
+        }
+    
+        /* the pop */
+        .strip figure:hover{
+          transform:translateY(-12px) scale(1.1);
+          z-index:10;
+          box-shadow:0 24px 48px -14px rgba(0,0,0,.38);
+        }
 
-    .strip figure{
-      margin:0;
-      aspect-ratio:3/4;
-      border-radius:10px;
-      overflow:hidden;
-      background:linear-gradient(150deg,#e9e6df,#d6d2c8);
-      position:relative;
-    }
-
-    .strip img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      filter:saturate(.92);
-      transition:transform .5s cubic-bezier(.2,.8,.2,1), filter .5s ease;
-    }
-
-    .strip figure:hover img{
-      transform:scale(1.04);
-      filter:saturate(1);
-    }
-
-    /* empty slots keep the same shape */
-    .strip .ph{background:linear-gradient(150deg,#e6e2da,#cfcabe)}
-
-    @media(max-width:900px){
-      .strip{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-    }
-    @media(max-width:560px){
-      .strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-    }
-
+        .strip figure:hover img{filter:saturate(1)}
+    
+        .strip .ph{background:linear-gradient(150deg,#e6e2da,#cfcabe)}
+    
+        /* don't let the popped card get clipped by the section */
+        .photos{overflow:visible}
+    
+        @media(max-width:900px){
+          .strip{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+        }
+        @media(max-width:560px){
+          .strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+        }
+        @media(hover:none){
+          .strip figure:hover{transform:none;box-shadow:none}
+        }
       /* ── CTA ── */
       .cta{
         width:100%;padding:96px 0 64px;margin-top:64px;
